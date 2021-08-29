@@ -1,0 +1,39 @@
+>>> from news.models import *
+>>> author1 = Author.objects.create(name=User.objects.create(username='Nick'))
+>>> author2 = Author.objects.create(name=User.objects.create(username='Mike'))
+>>> cat1 = Category.objects.create(category='people')
+>>> cat2 = Category.objects.create(category='sport')
+>>> cat3 = Category.objects.create(category='tech')
+>>> cat4 = Category.objects.create(category='politics')
+>>> art1 = Post.objects.create(author=author1, title='art1', text='same text')
+>>> art2 = Post.objects.create(author=author2, title='art2', text='a lot of text')
+>>> news1 = Post.objects.create(author=author1, title='news1', postType='news', text='same text')
+>>> art1.category.add(cat1)
+>>> art2.category.add(cat2, cat3, cat4)
+>>> news1.category.add(cat1, cat3)
+>>> Comment.objects.create(post=art1, user=User.objects.get(username='Mike'), text='comment1')
+>>> Comment.objects.create(post=art1, user=User.objects.get(username='Nick'), text='comment2')
+>>> Comment.objects.create(post=art2, user=User.objects.get(username='Nick'), text='comment3')
+>>> Comment.objects.create(post=news1, user=User.objects.get(username='Mike'), text='comment4')
+>>> all_post = Post.objects.all()
+>>> all_comm = Comment.objects.all()
+>>> from random import randint
+>>> for _ in range(10):
+...     all_post[randint(0, len(all_post) - 1)].like()
+...
+>>> for _ in range(4):
+...     all_post[randint(0, len(all_post) - 1)].dislike()
+...
+>>> for _ in range(10):
+...     all_comm[randint(0, len(all_comm) - 1)].like()
+...
+>>> for _ in range(4):
+...     all_comm[randint(0, len(all_comm) - 1)].dislike()
+...
+>>> author1.update_rating()
+>>> author2.update_rating()
+>>> best_author = Author.objects.all().order_by('-rating')[0]
+>>> print(best_author.name.username, best_author.rating)
+>>> best_post = Post.objects.all().order_by('-rating')[0]
+>>> print(best_post.dateCreated, best_post.author.name.username, best_post.rating, best_post.title, best_post.preview(), sep='\n')
+>>> print(Comment.objects.filter(post=best_post).values('dateCreated', 'user', 'rating', 'text', sep='\n'))
