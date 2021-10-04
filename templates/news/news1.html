@@ -1,0 +1,20 @@
+{% extends 'default.html' %}
+
+{% block title %}
+    {{ news1.title }}
+{% endblock %}
+
+{% block content %}
+    <table>
+        <tr>
+            <th><strong>Title</strong></th>
+            <th><strong>Date</strong></th>
+            <th><strong>Text</strong></th>
+        </tr>
+            <tr>
+            <td>{{ news.title }}</td>
+            <td>{{ news.dateCreated|date:'d-M-Y h:m'}}</td>
+            <td>{{ news.text }}</td>
+        </tr>
+    </table>
+{% endblock %}

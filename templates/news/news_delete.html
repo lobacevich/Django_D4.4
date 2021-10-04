@@ -1,0 +1,28 @@
+{% extends 'default.html' %}
+
+{% block title %}
+    Create news
+{% endblock %}
+
+{% block content %}
+    <h3>Do you really want to delete this news?</h3>
+
+    <table>
+        <tr>
+            <th><strong>Title</strong></th>
+            <th><strong>Date</strong></th>
+            <th><strong>Text</strong></th>
+        </tr>
+            <tr>
+            <td>{{ news.title }}</td>
+            <td>{{ news.dateCreated|date:'d-M-Y h:m'}}</td>
+            <td>{{ news.text }}</td>
+        </tr>
+    </table>
+
+    <form method="post">
+        {% csrf_token %}
+        <input type="submit" value="Confirm">
+    </form>
+
+{% endblock %}

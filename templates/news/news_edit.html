@@ -1,0 +1,15 @@
+{% extends 'default.html' %}
+
+{% block title %}
+    Create news
+{% endblock %}
+
+{% block content %}
+    <h3>Edit news</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Edit news">
+    </form>
+
+{% endblock %}

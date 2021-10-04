@@ -8,7 +8,7 @@ class Author(models.Model):
     rating = models.SmallIntegerField(default=0)
 
     def __str__(self):
-        return self.name.username
+        return f'{self.name.username}'
 
     def update_rating(self):
         postR = Post.objects.filter(author=self).aggregate(Sum('rating'))['rating__sum']
@@ -25,7 +25,7 @@ class Category(models.Model):
     category = models.CharField(max_length=31, unique=True)
 
     def __str__(self):
-        return self.category
+        return f'{self.category}'
 
 
 class Post(models.Model):
@@ -38,7 +38,7 @@ class Post(models.Model):
     rating = models.SmallIntegerField(default=0)
 
     def __str__(self):
-        return self.author.name.username + '/' + self.title
+        return f'{self.author.name.username}/{self.title}'
 
     def like(self):
         self.rating += 1
@@ -50,6 +50,9 @@ class Post(models.Model):
 
     def preview(self):
         return self.text[:123] + '...'
+
+    def get_absolute_url(self):
+        return f'/news/{self.id}'
 
 
 class PostCategory(models.Model):
@@ -65,7 +68,7 @@ class Comment(models.Model):
     rating = models.SmallIntegerField(default=0)
 
     def __str__(self):
-        return self.post.title + '/' + self.user.username
+        return f'{self.post.title}/{self.user.username}'
 
     def like(self):
         self.rating += 1
